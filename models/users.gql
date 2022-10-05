@@ -1,0 +1,9 @@
+type User {
+  email: String!
+  password: String!
+}
+
+type Query {
+  allUsers: [User]!
+  userByEmail(email: String!): [User!]
+}
