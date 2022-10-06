@@ -1,9 +1,9 @@
-import express from "express";
-import { router as authenticationRoutes } from "./routes/authentication.route.js";
+const express = require("express");
+const authenticationRouter = require("./src/routes/authentication.route");
 
 const app = express();
 app.use(express.json());
 
-app.use("/auth", authenticationRoutes);
+app.use("/auth", authenticationRouter);
 
 app.listen(3001);

@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 const express = require("express");
 const router = express.Router();
 
@@ -13,4 +11,4 @@ router.post("/refresh-token", authenticationController.refreshToken);
 
 router.post("/logout", authenticationController.logout);
 
-export { router };
+module.exports = router;

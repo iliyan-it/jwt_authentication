@@ -1,5 +1,11 @@
-GET http://localhost:3000/albums
-Authorization: Bearer 
+###
+POST  http://localhost:3001/auth/register
+Content-Type: application/json
+
+{
+    "email": "handzhiyski@gmail.com",
+    "password": "qwerty"
+}
 
 ###
 POST  http://localhost:3001/auth/login
@@ -10,7 +16,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE  http://localhost:3001/auth/logout
+POST  http://localhost:3001/auth/logout
 Content-Type: application/json
 
 {
@@ -26,10 +32,5 @@ Content-Type: application/json
 }
 
 ###
-POST  http://localhost:3001/auth/register
-Content-Type: application/json
-
-{
-    "email": "iliyan.handzhiyski@gmail.com",
-    "password": "qwerty"
-}
+GET http://localhost:3000/albums
+Authorization: Bearer 

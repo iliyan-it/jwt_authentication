@@ -2,8 +2,41 @@ const jwt = require("jsonwebtoken");
 const validator = require("deep-email-validator");
 const bcrypt = require("bcrypt");
 const axios = require("axios");
+const { storeUserInDB } = require("../services/db.service");
 
 let refreshTokens = [];
+
+async function register(request, response) {
+  const { email, password } = request.body;
+  const { valid, reason, validators } = await validator.validate(email);
+
+  if (!valid) {
+    console.error(validators[reason].reason);
+
+    return response.status(400).send({
+      message: "Invalid email address!",
+    });
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const user = {
+    email: email,
+    password: hashedPassword,
+  };
+
+  try {
+    const stored = await storeUserInDB(user);
+    return response.status(201).send({
+      email: stored.email,
+      id: stored._id,
+    });
+  } catch (error) {
+    return response.status(400).send({
+      message: error.message,
+    });
+  }
+}
 
 function login(request, response) {
   console.log("login");
@@ -30,33 +63,6 @@ function login(request, response) {
   //   });
 }
 
-function register(request, response) {
-  console.log("register");
-  //   const { email, password } = request.body;
-  //   const { valid, reason, validators } = await validator.validate(email);
-
-  //   if (!valid) {
-  //     console.error(validators[reason].reason);
-
-  //     return response.status(400).send({
-  //       message: "Invalid email address!",
-  //     });
-  //   }
-
-  //   const hashedPassword = await bcrypt.hash(password, 10);
-
-  //   const user = {
-  //     email: email,
-  //     password: hashedPassword,
-  //   };
-
-  //   const stored = await storeUserInDB(user);
-
-  //   // store the new user in the DB(fauna) email, password, with the salt(jwt secret)
-
-  //   console.log(stored);
-}
-
 function refreshToken(request, response) {
   console.log("refreshToken");
   //   const refreshToken = request.body.refreshToken;
@@ -81,30 +87,6 @@ function logout(request, response) {
 
 // function generateAccessToken(user) {
 //   return jwt.sign(user, process.env.JWT_LOGIN_SECRET, { expiresIn: "1m" });
-// }
-
-// async function storeUserInDB(user) {
-//   try {
-//     const { data } = await axios({
-//       url: "https://graphql.eu.fauna.com/graphql",
-//       method: "POST",
-//       headers: {
-//         Authorization: `Bearer ${process.env.FAUNA_SECRET_KEY}`,
-//       },
-//       data: {
-//         query: `mutation($email: String!, $password: String!){
-//             createUser(data:{email: $email, password: $password}) {
-//               _id, email, password
-//             }
-//         }`,
-//         variables: user,
-//       },
-//     });
-
-//     return data;
-//   } catch (error) {
-//     console.error(error);
-//   }
 // }
 
 module.exports = {

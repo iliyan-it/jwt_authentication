@@ -1,5 +1,5 @@
 type User {
-  email: String!
+  email: String! @unique(index: "unique_email")
   password: String!
 }
 
