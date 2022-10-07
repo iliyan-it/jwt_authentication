@@ -3,8 +3,8 @@ POST  http://localhost:3001/auth/register
 Content-Type: application/json
 
 {
-    "email": "handzhiyski@gmail.com",
-    "password": "qwerty"
+    "email": "",
+    "password": ""
 }
 
 ###
@@ -12,7 +12,8 @@ POST  http://localhost:3001/auth/login
 Content-Type: application/json
 
 {
-    "name": "iliyan"
+    "email": "",
+    "password": ""
 }
 
 ###
@@ -20,7 +21,8 @@ POST  http://localhost:3001/auth/logout
 Content-Type: application/json
 
 {
-    "refreshToken": ""
+    "email": "",
+    "password": ""
 }
 
 ###

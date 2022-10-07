@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv-flow").config();
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const app = express();
@@ -11,11 +11,7 @@ const albums = [
 ];
 
 app.get("/albums", authenticateToken, (request, response) => {
-  if (request.user.name === "iliyan") {
-    return response.json({ albums });
-  }
-
-  return response.sendStatus(403);
+  return response.json({ albums });
 });
 
 function authenticateToken(request, response, next) {
